@@ -7,11 +7,10 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- CDNs for React and dependencies (no Babel needed) -->
+    <!-- CDNs for React and dependencies -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/three/build/three.min.js"></script>
-    <script src="https://unpkg.com/framer-motion/dist/framer-motion.js"></script>
     <script src="https://unpkg.com/@react-three/fiber/dist/react-three-fiber.umd.js"></script>
     <script src="https://unpkg.com/@react-three/drei/umd/index.js"></script>
     
@@ -62,11 +61,11 @@
         .card {
           background-color: #2a2a4e;
           border-radius: 15px;
-          transition: all 0.3s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-          transform: translateY(-10px);
+          transform: translateY(-10px) scale(1.05);
           box-shadow: 0 15px 30px rgba(0, 255, 153, 0.2) !important; /* Glow effect */
         }
 
@@ -87,6 +86,8 @@
 
         .install-btn:hover {
           background-color: #00cc80;
+          transform: scale(1.05);
+          box-shadow: 0px 0px 15px rgba(255,255,255,0.5);
         }
 
         /* Loader */
@@ -136,13 +137,12 @@
 <body>
     <div id="root"></div>
     
-    <!-- React Code (transpiled to plain JS without Babel) -->
+    <!-- React Code (simplified without Framer Motion) -->
     <script>
         const e = React.createElement;
         const { useState, useEffect, useRef } = React;
         const { Canvas, useFrame } = ReactThreeFiber;
         const { OrbitControls, Stars } = drei;
-        const { motion } = window.framerMotion;
 
         // RotatingCube Component
         function RotatingCube() {
@@ -163,24 +163,9 @@
         function Hero() {
           return e('section', { className: 'hero-section' },
             e('div', { className: 'hero-content container text-center' },
-              e(motion.h1, {
-                className: 'display-4 text-white',
-                initial: { opacity: 0, y: -50 },
-                animate: { opacity: 1, y: 0 },
-                transition: { duration: 1 }
-              }, 'Mutaz Code'),
-              e(motion.p, {
-                className: 'lead text-white',
-                initial: { opacity: 0, y: 50 },
-                animate: { opacity: 1, y: 0 },
-                transition: { duration: 1, delay: 0.5 }
-              }, 'تطبيق Android متقدم لاختبار احترافيتنا في برمجة التطبيقات والمواقع'),
-              e(motion.button, {
-                id: 'installButton',
-                className: 'btn btn-light install-btn',
-                whileHover: { scale: 1.05, boxShadow: '0px 0px 15px rgba(255,255,255,0.5)' },
-                transition: { duration: 0.3 }
-              },
+              e('h1', { className: 'display-4 text-white' }, 'Mutaz Code'),
+              e('p', { className: 'lead text-white' }, 'تطبيق Android متقدم لاختبار احترافيتنا في برمجة التطبيقات والمواقع'),
+              e('button', { id: 'installButton', className: 'install-btn' },
                 e('i', { className: 'fas fa-download me-2' }),
                 ' تثبيت التطبيق الآن'
               )
@@ -209,29 +194,13 @@
           ];
 
           return e('section', { className: 'skills-section container' },
-            e(motion.h2, {
-              className: 'text-center mb-4',
-              initial: { opacity: 0 },
-              whileInView: { opacity: 1 },
-              transition: { duration: 0.8 }
-            }, 'لماذا Mutaz Code؟'),
-            e(motion.p, {
-              className: 'text-center mb-5',
-              initial: { opacity: 0 },
-              whileInView: { opacity: 1 },
-              transition: { duration: 0.8, delay: 0.2 }
-            }, 'الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. قم بتثبيت التطبيق على هاتفك الأندرويد، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان. هذا التطبيق ليس مجرد عرض، بل دليل حي على قدرتنا على بناء حلول برمجية متقدمة تلبي احتياجات عملائنا.'),
+            e('h2', { className: 'text-center mb-4' }, 'لماذا Mutaz Code؟'),
+            e('p', { className: 'text-center mb-5' }, 'الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. قم بتثبيت التطبيق على هاتفك الأندرويد، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان. هذا التطبيق ليس مجرد عرض، بل دليل حي على قدرتنا على بناء حلول برمجية متقدمة تلبي احتياجات عملائنا.'),
             e('h3', { className: 'text-center mb-4' }, 'مهاراتنا وتقنياتنا المتقدمة'),
             e('div', { className: 'row' },
               skillsData.map((skill, index) => 
                 e('div', { key: index, className: 'col-md-4 mb-4' },
-                  e(motion.div, {
-                    className: 'card shadow-lg border-0',
-                    initial: { opacity: 0, y: 50 },
-                    whileInView: { opacity: 1, y: 0 },
-                    transition: { duration: 0.5, delay: index * 0.1 },
-                    whileHover: { scale: 1.05, boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }
-                  },
+                  e('div', { className: 'card shadow-lg border-0' },
                     e('div', { className: 'card-body text-center' },
                       e('i', { className: `${skill.icon} fa-3x ${skill.color} mb-3` }),
                       e('h5', { className: 'card-title' }, skill.title),
@@ -241,12 +210,7 @@
                 )
               )
             ),
-            e(motion.p, {
-              className: 'text-center mt-5',
-              initial: { opacity: 0 },
-              whileInView: { opacity: 1 },
-              transition: { duration: 0.8 }
-            }, 'باختبار Mutaz Code، ستكتشف كيف يمكننا تحويل أفكارك إلى واقع برمجي احترافي. أسند أعمالك إلينا اليوم، ودعنا نبني المستقبل معًا!')
+            e('p', { className: 'text-center mt-5' }, 'باختبار Mutaz Code، ستكتشف كيف يمكننا تحويل أفكارك إلى واقع برمجي احترافي. أسند أعمالك إلينا اليوم، ودعنا نبني المستقبل معًا!')
           );
         }
 
