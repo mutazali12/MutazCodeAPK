@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mutaz Code - تطبيق اختبار احترافية البرمجة</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -13,11 +13,10 @@
     
     <style>
         :root {
-            /* متغيرات الألوان */
             --primary-dark: #1a1a2e;
             --secondary-dark: #16213e;
-            --accent-green: #00ff99;
-            --light-text: #e0e0e0;
+            --accent-green: #00ff99; /* اللون الفسفوري الأساسي */
+            --light-text: #ffffff; /* تم تغيير لون النص الرئيسي إلى الأبيض */
             --gradient-start: #0f3460;
             --gradient-end: #16213e;
         }
@@ -25,16 +24,15 @@
         body {
             background-color: var(--primary-dark);
             color: var(--light-text);
-            /* استخدام خط Cairo للأناقة */
             font-family: 'Cairo', sans-serif;
-            line-height: 1.7; /* تحسين سهولة القراءة */
+            line-height: 1.7;
         }
         
         .hero-section {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             padding: 120px 0;
             text-align: center;
-            border-bottom-left-radius: 50px; /* إضافة شكل مميز */
+            border-bottom-left-radius: 50px;
             border-bottom-right-radius: 50px;
         }
         
@@ -49,7 +47,7 @@
             padding: 18px 40px;
             border-radius: 50px;
             background-color: var(--accent-green);
-            color: var(--primary-dark); /* نص داكن على خلفية فاتحة */
+            color: var(--primary-dark);
             border: none;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             text-transform: uppercase;
@@ -61,46 +59,80 @@
             box-shadow: 0px 10px 25px rgba(0, 255, 153, 0.3);
         }
         
+        /* تحسين تصميم البطاقات */
         .card {
             background-color: #2a2a4e;
-            border-radius: 20px; /* زيادة التدوير */
-            border: 1px solid rgba(0, 255, 153, 0.1); /* إضافة حدود خفيفة */
-            min-height: 250px; /* لتوحيد مظهر البطاقات */
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 153, 0.1);
+            min-height: 280px; /* زيادة ارتفاع البطاقة للمظهر الجيد على الهاتف */
             transition: all 0.4s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative; /* ضروري لتأثير التوهج */
+            overflow: hidden; /* لإخفاء أي جزء من التوهج يخرج عن حواف البطاقة */
+            color: var(--light-text) !important; /* النص داخل البطاقة باللون الأبيض */
         }
         
         .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 255, 153, 0.15);
         }
-        
-        .card-body {
-            padding: 30px;
+
+        /* تثبيت لون نص جسم البطاقة ليصبح أبيض */
+        .card-text {
+            color: var(--light-text) !important;
         }
         
         .card-title {
             font-weight: 700;
-            color: var(--accent-green);
+            color: var(--accent-green) !important;
         }
         
-        .text-purple {
-            color: #a29bfe;
+        .card-body {
+            padding: 30px;
+            z-index: 2; /* لضمان أن النص فوق التوهج */
         }
         
-        /* إزالة اللودر الخادع بالكامل */
-        #loader {
-            display: none !important;
+        /* تأثير الدخان الفسفوري المتوهج */
+        .glow-smoke {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1; /* لوضعه خلف المحتوى */
+            filter: blur(20px); /* إضافة تأثير الضبابية (الدخان) */
+            opacity: 0.5;
+            background: radial-gradient(circle at center, rgba(0, 255, 153, 0.7), rgba(26, 26, 46, 0) 70%);
+            transform: scale(0.5);
+            animation: smoke-pulse 6s infinite alternate; /* حركة التوهج */
         }
-        
-        /* تلوين الأيقونات بشكل أجمل */
+
+        .card:hover .glow-smoke {
+            opacity: 1;
+            filter: blur(15px);
+            animation: smoke-pulse-hover 4s infinite alternate;
+        }
+
+        @keyframes smoke-pulse {
+            0% { transform: scale(0.6) rotate(0deg); opacity: 0.4; }
+            50% { transform: scale(0.8) rotate(10deg); opacity: 0.7; }
+            100% { transform: scale(0.6) rotate(0deg); opacity: 0.4; }
+        }
+
+        @keyframes smoke-pulse-hover {
+            0% { transform: scale(1.0) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* تلوين الأيقونات */
         .card-body i {
-            color: var(--accent-green); /* توحيد الألوان */
+            color: var(--accent-green);
             font-size: 3.5rem !important;
             margin-bottom: 20px;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .text-highlight {
@@ -113,6 +145,29 @@
             padding: 30px 0;
             color: #999;
             text-align: center;
+        }
+        
+        /* تحسين استجابة الهاتف (Mobile Responsiveness) */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+                border-bottom-left-radius: 30px;
+                border-bottom-right-radius: 30px;
+            }
+            
+            .card {
+                min-height: auto; /* السماح بارتفاع تلقائي على الهاتف */
+                margin-bottom: 20px;
+            }
+            
+            .download-btn {
+                font-size: 1.1rem;
+                padding: 12px 25px;
+            }
+            
+            .skills-section {
+                padding: 40px 0;
+            }
         }
     </style>
 </head>
@@ -135,7 +190,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <p class="text-center mb-5 fs-5">
-                    الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. <span class="text-highlight">قم بتنزيل ملف APK</span> على هاتفك الأندرويد وتثبيته، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان. هذا التطبيق ليس مجرد عرض، بل دليل حي على قدرتنا على بناء حلول برمجية متقدمة تلبي احتياجات عملائنا.
+                    الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. <span class="text-highlight">قم بتنزيل ملف APK</span> على هاتفك الأندرويد وتثبيته، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان.
                 </p>
             </div>
         </div>
@@ -144,55 +199,55 @@
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-mobile-alt mb-3"></i>
                         <h5 class="card-title">تطوير تطبيقات Android</h5>
-                        <p class="card-text">نستخدم Kotlin وJetpack Compose لتطوير تطبيقات سريعة، تفاعلية، ومتوافقة مع أحدث إصدارات Android. دعم Firebase، API integrations، وأمان عالي المستوى.</p>
+                        <p class="card-text">نستخدم Kotlin وJetpack Compose لتطوير تطبيقات سريعة، تفاعلية، ومتوافقة مع أحدث إصدارات Android.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-code mb-3"></i>
                         <h5 class="card-title">تطوير المواقع والويب</h5>
-                        <p class="card-text">باستخدام React.js، Next.js، وTailwind CSS، نبني مواقع ويب سريعة التحميل، SEO-friendly، ومتجاوبة مع جميع الأجهزة. من التجارة الإلكترونية إلى لوحات التحكم (Dashboards).</p>
+                        <p class="card-text">باستخدام React.js، Next.js، وTailwind CSS، نبني مواقع ويب سريعة التحميل، SEO-friendly، ومتجاوبة مع جميع الأجهزة.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-cloud mb-3"></i>
                         <h5 class="card-title">الحلول السحابية والأمان</h5>
-                        <p class="card-text">ندمج AWS، Google Cloud، وAzure للحلول السحابية. التركيز على الـ encryption، OAuth، وCI/CD pipelines باستخدام GitHub Actions لضمان كفاءة مشاريعك.</p>
+                        <p class="card-text">ندمج AWS، Google Cloud، وAzure للحلول السحابية. التركيز على الـ encryption، OAuth، وCI/CD pipelines.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-database mb-3"></i>
                         <h5 class="card-title">إدارة البيانات المتقدمة</h5>
-                        <p class="card-text">نستخدم MongoDB، PostgreSQL، وGraphQL لإدارة البيانات بكفاءة. ندعم real-time updates و big data analytics لتلبية كافة احتياجات تطبيقاتك.</p>
+                        <p class="card-text">نستخدم MongoDB، PostgreSQL، وGraphQL لإدارة البيانات بكفاءة. ندعم real-time updates و big data analytics.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-robot mb-3"></i>
                         <h5 class="card-title">الذكاء الاصطناعي والتعلم الآلي</h5>
-                        <p class="card-text">ندمج TensorFlow، PyTorch، وNLP models لإضافة ميزات ذكية مثل chatbots، أنظمة التوصيات (recommendations)، وcomputer vision في تطبيقاتك.</p>
+                        <p class="card-text">ندمج TensorFlow، PyTorch، وNLP models لإضافة ميزات ذكية مثل chatbots، أنظمة التوصيات، وcomputer vision.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card shadow-lg border-0">
-                    <div class="card-body text-center">
+                    <div class="glow-smoke"></div> <div class="card-body text-center">
                         <i class="fas fa-users mb-3"></i>
                         <h5 class="card-title">تجربة المستخدم (UX/UI)</h5>
-                        <p class="card-text">نصمم واجهات مستخدم جذابة باستخدام Figma وAdobe XD، مع التركيز على accessibility وuser testing لضمان تجربة مستخدم سلسة ومرضية.</p>
+                        <p class="card-text">نصمم واجهات مستخدم جذابة باستخدام Figma وAdobe XD، مع التركيز على accessibility وuser testing.</p>
                     </div>
                 </div>
             </div>
@@ -210,21 +265,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        // تم تغيير ID الزر إلى downloadButton
         document.getElementById('downloadButton').addEventListener('click', function() {
-            
-            // إضافة خاصية تمنع النقر المتكرر أثناء التحويل
             this.disabled = true;
             this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> جاري التحويل للتحميل...';
 
-            // تحويل المستخدم مباشرة إلى رابط التحميل (الشفافية في التنفيذ)
             window.location.href = 'https://github.com/mutazali12/MutazCodeAPK/releases/download/v_1_mutaz_code/app-release.apk';
             
-            // إعادة تمكين الزر بعد فترة قصيرة (احتياطيًا)
             setTimeout(() => {
                  this.disabled = false;
                  this.innerHTML = '<i class="fas fa-download me-2"></i> تنزيل ملف التطبيق (APK) الآن';
-            }, 3000); // 3 ثواني
+            }, 3000); 
         });
     </script>
 
