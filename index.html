@@ -1,202 +1,359 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mutaz Code - تطبيق اختبار احترافية البرمجة</title>
-    <!-- Bootstrap 5 للتصميم التفاعلي والحديث -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Font Awesome للأيقونات -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <!-- CSS مخصص للتحسينات -->
+    
+    <!-- CDNs for React and dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/three/build/three.min.js"></script>
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/@react-three/fiber/dist/react-three-fiber.umd.js"></script>
+    <script src="https://unpkg.com/@react-three/drei/umd/index.js"></script>
+    
+    <!-- Custom Styles -->
     <style>
+        /* App.css - Custom styles for professional look with attractive colors and effects */
+
+        /* Global Styles */
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #1a1a2e; /* Dark background for modern feel */
+          color: #e0e0e0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
         }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #007bff, #6610f2);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
+          position: relative;
+          height: 80vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #0f3460, #16213e); /* Attractive gradient */
+          overflow: hidden;
         }
+
+        .hero-content {
+          position: relative;
+          z-index: 2;
+        }
+
+        .three-canvas-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          opacity: 0.8; /* Subtle overlay */
+        }
+
+        /* Skills Section */
         .skills-section {
-            padding: 50px 0;
+          padding: 80px 0;
+          background: linear-gradient(135deg, #16213e, #0f3460);
         }
+
+        .card {
+          background-color: #2a2a4e;
+          border-radius: 15px;
+          transition: all 0.3s ease;
+        }
+
+        .card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 15px 30px rgba(0, 255, 153, 0.2) !important; /* Glow effect */
+        }
+
+        .text-purple {
+          color: #a29bfe !important;
+        }
+
+        /* Install Button */
         .install-btn {
-            font-size: 1.2rem;
-            padding: 15px 30px;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+          font-size: 1.2rem;
+          padding: 15px 30px;
+          border-radius: 50px;
+          background-color: #00ff99;
+          color: #1a1a2e;
+          border: none;
+          transition: all 0.3s ease;
         }
+
         .install-btn:hover {
-            transform: scale(1.05);
+          background-color: #00cc80;
         }
+
+        /* Loader */
         #loader {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          z-index: 9999;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
+
         .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
+          border: 8px solid #f3f3f3;
+          border-top: 8px solid #00ff99;
+          border-radius: 50%;
+          width: 60px;
+          height: 60px;
+          animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
+
         .progress-bar-container {
-            width: 50%;
-            margin-top: 20px;
-            background: #ddd;
-            border-radius: 5px;
-            overflow: hidden;
+          width: 50%;
+          margin-top: 20px;
+          background: #ddd;
+          border-radius: 5px;
+          overflow: hidden;
         }
+
         .progress-bar {
-            height: 20px;
-            width: 0;
-            background: #4caf50;
-            transition: width 0.3s ease;
+          height: 20px;
+          background: linear-gradient(to right, #00ff99, #00cc80);
+          transition: width 0.3s ease;
         }
+
+        /* Font Awesome (include in index.html) */
     </style>
 </head>
 <body>
+    <div id="root"></div>
+    
+    <!-- React Code (combined App.js and main.jsx) -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { Canvas, useFrame } = ReactThreeFiber;
+        const { OrbitControls, Stars } = drei;
+        const { motion } = window.framerMotion;
 
-    <!-- قسم الهيرو -->
-    <section class="hero-section">
-        <div class="container">
-            <h1 class="display-4">Mutaz Code</h1>
-            <p class="lead">تطبيق Android متقدم لاختبار احترافيتنا في برمجة التطبيقات والمواقع</p>
-            <button id="installButton" class="btn btn-light install-btn">
-                <i class="fas fa-download me-2"></i> تثبيت التطبيق الآن
-            </button>
-        </div>
-    </section>
+        // 3D Cube Component with rotation and effects
+        function RotatingCube() {
+          const meshRef = useRef();
+          useFrame(() => {
+            if (meshRef.current) {
+              meshRef.current.rotation.x += 0.005;
+              meshRef.current.rotation.y += 0.005;
+            }
+          });
+          return (
+            <mesh ref={meshRef}>
+              <boxGeometry args={[3, 3, 3]} />
+              <meshStandardMaterial color="#00ff99" emissive="#00ff99" emissiveIntensity={0.5} />
+            </mesh>
+          );
+        }
 
-    <!-- قسم الغرض والشرح -->
-    <section class="container skills-section">
-        <h2 class="text-center mb-4">لماذا Mutaz Code؟</h2>
-        <p class="text-center mb-5">
-            الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. قم بتثبيت التطبيق على هاتفك الأندرويد، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان. هذا التطبيق ليس مجرد عرض، بل دليل حي على قدرتنا على بناء حلول برمجية متقدمة تلبي احتياجات عملائنا.
-        </p>
+        // Hero Section with 3D background
+        function Hero() {
+          return (
+            <section className="hero-section">
+              <div className="hero-content container text-center">
+                <motion.h1
+                  className="display-4 text-white"
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  Mutaz Code
+                </motion.h1>
+                <motion.p
+                  className="lead text-white"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                >
+                  تطبيق Android متقدم لاختبار احترافيتنا في برمجة التطبيقات والمواقع
+                </motion.p>
+                <motion.button
+                  id="installButton"
+                  className="btn btn-light install-btn"
+                  whileHover={{ scale: 1.05, boxShadow: '0px 0px 15px rgba(255,255,255,0.5)' }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <i className="fas fa-download me-2"></i> تثبيت التطبيق الآن
+                </motion.button>
+              </div>
+              <div className="three-canvas-container">
+                <Canvas>
+                  <ambientLight intensity={0.5} />
+                  <pointLight position={[10, 10, 10]} intensity={1.5} />
+                  <RotatingCube />
+                  <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+                  <OrbitControls enableZoom={false} enablePan={false} />
+                </Canvas>
+              </div>
+            </section>
+          );
+        }
 
-        <h3 class="text-center mb-4">مهاراتنا وتقنياتنا المتقدمة</h3>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
-                        <h5 class="card-title">تطوير تطبيقات Android</h5>
-                        <p class="card-text">نستخدم Kotlin وJetpack Compose لتطوير تطبيقات سريعة، تفاعلية، ومتوافقة مع أحدث إصدارات Android. دعنا نبني تطبيقك التالي مع دعم للـ Firebase، API integrations، وأمان عالي المستوى.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-code fa-3x text-success mb-3"></i>
-                        <h5 class="card-title">تطوير المواقع والويب</h5>
-                        <p class="card-text">باستخدام React.js، Next.js، وTailwind CSS، نبني مواقع ويب سريعة التحميل، SEO-friendly، ومتجاوبة مع جميع الأجهزة. من الـ e-commerce إلى الـ dashboards، نغطي كل شيء مع Node.js backend.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-cloud fa-3x text-info mb-3"></i>
-                        <h5 class="card-title">الحلول السحابية والأمان</h5>
-                        <p class="card-text">ندمج AWS، Google Cloud، وAzure للحلول السحابية. مع التركيز على الـ encryption، OAuth، وCI/CD pipelines باستخدام GitHub Actions، نضمن أمان وكفاءة مشاريعك.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-database fa-3x text-warning mb-3"></i>
-                        <h5 class="card-title">إدارة البيانات</h5>
-                        <p class="card-text">نستخدم MongoDB، PostgreSQL، وGraphQL لإدارة البيانات بكفاءة. سواء كانت تطبيقاتك تحتاج إلى real-time updates أو big data analytics، نحن جاهزون.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-robot fa-3x text-danger mb-3"></i>
-                        <h5 class="card-title">الذكاء الاصطناعي والتعلم الآلي</h5>
-                        <p class="card-text">ندمج TensorFlow، PyTorch، وNLP models لإضافة ميزات ذكية مثل chatbots، recommendations، وcomputer vision في تطبيقاتك.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <i class="fas fa-users fa-3x text-purple mb-3"></i>
-                        <h5 class="card-title">تجربة المستخدم (UX/UI)</h5>
-                        <p class="card-text">نصمم واجهات مستخدم جذابة باستخدام Figma وAdobe XD، مع التركيز على accessibility وuser testing لضمان رضا عملائك.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p class="text-center mt-5">
-            باختبار Mutaz Code، ستكتشف كيف يمكننا تحويل أفكارك إلى واقع برمجي احترافي. أسند أعمالك إلينا اليوم، ودعنا نبني المستقبل معًا!
-        </p>
-    </section>
+        // Skills Section with animated cards
+        function Skills() {
+          const skillsData = [
+            {
+              icon: 'fas fa-mobile-alt',
+              color: 'text-primary',
+              title: 'تطوير تطبيقات Android',
+              text: 'نستخدم Kotlin وJetpack Compose لتطوير تطبيقات سريعة، تفاعلية، ومتوافقة مع أحدث إصدارات Android. دعنا نبني تطبيقك التالي مع دعم للـ Firebase، API integrations، وأمان عالي المستوى.',
+            },
+            {
+              icon: 'fas fa-code',
+              color: 'text-success',
+              title: 'تطوير المواقع والويب',
+              text: 'باستخدام React.js، Next.js، وTailwind CSS، نبني مواقع ويب سريعة التحميل، SEO-friendly، ومتجاوبة مع جميع الأجهزة. من الـ e-commerce إلى الـ dashboards، نغطي كل شيء مع Node.js backend.',
+            },
+            {
+              icon: 'fas fa-cloud',
+              color: 'text-info',
+              title: 'الحلول السحابية والأمان',
+              text: 'ندمج AWS، Google Cloud، وAzure للحلول السحابية. مع التركيز على الـ encryption، OAuth، وCI/CD pipelines باستخدام GitHub Actions، نضمن أمان وكفاءة مشاريعك.',
+            },
+            {
+              icon: 'fas fa-database',
+              color: 'text-warning',
+              title: 'إدارة البيانات',
+              text: 'نستخدم MongoDB، PostgreSQL، وGraphQL لإدارة البيانات بكفاءة. سواء كانت تطبيقاتك تحتاج إلى real-time updates أو big data analytics، نحن جاهزون.',
+            },
+            {
+              icon: 'fas fa-robot',
+              color: 'text-danger',
+              title: 'الذكاء الاصطناعي والتعلم الآلي',
+              text: 'ندمج TensorFlow، PyTorch، وNLP models لإضافة ميزات ذكية مثل chatbots، recommendations، وcomputer vision في تطبيقاتك.',
+            },
+            {
+              icon: 'fas fa-users',
+              color: 'text-purple',
+              title: 'تجربة المستخدم (UX/UI)',
+              text: 'نصمم واجهات مستخدم جذابة باستخدام Figma وAdobe XD، مع التركيز على accessibility وuser testing لضمان رضا عملائك.',
+            },
+          ];
 
-    <!-- لودر التثبيت -->
-    <div id="loader">
-        <div class="spinner"></div>
-        <div class="progress-bar-container mt-3">
-            <div id="progressBar" class="progress-bar"></div>
-        </div>
-        <p class="text-white mt-3">جاري تثبيت التطبيق... يرجى الانتظار</p>
-    </div>
+          return (
+            <section className="skills-section container">
+              <motion.h2
+                className="text-center mb-4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+              >
+                لماذا Mutaz Code؟
+              </motion.h2>
+              <motion.p
+                className="text-center mb-5"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                الغرض الرئيسي من تطبيق Mutaz Code هو أن يتيح لك اختبار مدى احترافيتنا في برمجة التطبيقات والمواقع بشكل مباشر. قم بتثبيت التطبيق على هاتفك الأندرويد، وجرب ميزاته المتقدمة لترى كيف نجمع بين التصميم الأنيق، الأداء العالي، والأمان. هذا التطبيق ليس مجرد عرض، بل دليل حي على قدرتنا على بناء حلول برمجية متقدمة تلبي احتياجات عملائنا.
+              </motion.p>
 
-    <!-- JavaScript للتفاعل -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        document.getElementById('installButton').addEventListener('click', function() {
-            // إظهار اللودر
-            document.getElementById('loader').style.display = 'flex';
+              <h3 className="text-center mb-4">مهاراتنا وتقنياتنا المتقدمة</h3>
+              <div className="row">
+                {skillsData.map((skill, index) => (
+                  <div key={index} className="col-md-4 mb-4">
+                    <motion.div
+                      className="card shadow-lg border-0"
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      whileHover={{ scale: 1.05, boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}
+                    >
+                      <div className="card-body text-center">
+                        <i className={`${skill.icon} fa-3x ${skill.color} mb-3`}></i>
+                        <h5 className="card-title">{skill.title}</h5>
+                        <p className="card-text">{skill.text}</p>
+                      </div>
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
+              <motion.p
+                className="text-center mt-5"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+              >
+                باختبار Mutaz Code، ستكتشف كيف يمكننا تحويل أفكارك إلى واقع برمجي احترافي. أسند أعمالك إلينا اليوم، ودعنا نبني المستقبل معًا!
+              </motion.p>
+            </section>
+          );
+        }
 
-            // محاكاة عملية التحميل والتثبيت (مثل Google Play)
-            let progress = 0;
-            const progressBar = document.getElementById('progressBar');
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + '%';
-                if (progress >= 100) {
+        // Loader Component
+        function Loader({ isVisible }) {
+          const [progress, setProgress] = useState(0);
+
+          useEffect(() => {
+            if (isVisible) {
+              const interval = setInterval(() => {
+                setProgress((prev) => {
+                  if (prev >= 100) {
                     clearInterval(interval);
-                    // بعد الانتهاء، نقل إلى تحميل الملف (التثبيت الفعلي يحتاج إلى إذن المستخدم في Android)
-                    window.location.href = 'https://github.com/mutazali12/MutazCodeAPK/releases/download/v_1_mutaz_code/app-release.apk'; // استبدل برابط الملف في GitHub
-                    setTimeout(() => {
-                        document.getElementById('loader').style.display = 'none';
-                    }, 1000); // إخفاء اللودر بعد التحميل
-                }
-            }, 300); // سرعة التقدم
-        });
-    </script>
+                    window.location.href = 'https://github.com/mutazali12/MutazCodeAPK/releases/download/v_1_mutaz_code/app-release.apk';
+                    return 100;
+                  }
+                  return prev + 10;
+                });
+              }, 300);
+              return () => clearInterval(interval);
+            }
+          }, [isVisible]);
 
+          return (
+            <div id="loader" style={{ display: isVisible ? 'flex' : 'none' }}>
+              <div className="spinner"></div>
+              <div className="progress-bar-container mt-3">
+                <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+              </div>
+              <p className="text-white mt-3">جاري تثبيت التطبيق... يرجى الانتظار</p>
+            </div>
+          );
+        }
+
+        // Main App Component
+        function App() {
+          const [showLoader, setShowLoader] = useState(false);
+
+          useEffect(() => {
+            const installButton = document.getElementById('installButton');
+            if (installButton) {
+              installButton.addEventListener('click', () => setShowLoader(true));
+            }
+          }, []);
+
+          return (
+            <>
+              <Hero />
+              <Skills />
+              <Loader isVisible={showLoader} />
+            </>
+          );
+        }
+
+        // Render the App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
-```
-
-### شرح التصميم والكود:
-- **المكتبات المستخدمة**: استخدمت Bootstrap 5 للتصميم التفاعلي الحديث (responsive، cards، buttons)، وFont Awesome للأيقونات. هذه مكتبات حديثة وشائعة لتطوير الويب السريع.
-- **التفاعل**: عند الضغط على زر "تثبيت التطبيق الآن"، يظهر لودر مع spinner وprogress bar يحاكي عملية التثبيت مثل Google Play. بعد الانتهاء، يتم تحميل الملف APK مباشرة (استبدل الرابط برابط GitHub الخاص بك). لاحظ أن التثبيت الفعلي على Android يتطلب من المستخدم السماح بتثبيت من مصادر غير معروفة يدويًا.
-- **المحتوى**: أضفت قسمًا يشرح الغرض من التطبيق كاختبار لاحترافيتنا، مع سرد للمهارات والتقنيات (مثل Kotlin، React، AI، إلخ) لإقناع العميل بإسناد أعماله إلينا.
-- **كيفية الاستخدام**: احفظ هذا الكود في ملف `index.html` في مستودع GitHub الخاص بك، وفعل GitHub Pages ليصبح موقعًا حيًا. أرفق `mutazcode.apk` في الـ releases أو كملف في المستودع، وحدث الرابط في الـ JS. إذا كنت بحاجة إلى تعديلات، أخبرني!
